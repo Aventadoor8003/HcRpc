@@ -20,6 +20,15 @@ SerializableBuffer::SerializableBuffer(int buffer_size) {
     this->next_ = 0;
 }
 
+SerializableBuffer::SerializableBuffer(char *external_buffer, int external_size) {
+    this->buffer_ptr_ = new char[external_size];
+    for(int i = 0; i < external_size; i++) {
+        buffer_ptr_[i] = external_buffer[i];
+    }
+    this->capacity_ = external_size;
+    this->next_ = external_size;
+}
+
 SerializableBuffer::~SerializableBuffer() {
     cout << "Destructing" << endl;
     delete[] this->buffer_ptr_;
@@ -51,12 +60,25 @@ int SerializableBuffer::AddData(void *data, int data_size) {
 }
 
 int SerializableBuffer::SkipForward(int skip_size) {
+    if(capacity_ - next_ < skip_size) {
+        //Print a message
+        return -1;
+    }
     Skip(skip_size);
     return 0;
 }
 
 int SerializableBuffer::SkipBackward(int skip_size) {
+    if(skip_size > next_) {
+        //Print a message
+        return -1;
+    }
     Skip(-1 * skip_size);
+    return 0;
+}
+
+int SerializableBuffer::Rewind() {
+    next_ = 0;
     return 0;
 }
 
@@ -69,14 +91,24 @@ char *SerializableBuffer::GetCurrentPtr() {
     return buffer_ptr_ + next_;
 }
 
+int SerializableBuffer::GetLength() {
+    return next_;
+}
+
+int SerializableBuffer::CopyToCharArray(char *dest) const {
+    for(int i = 0; i < next_; i++) {
+        dest[i] = buffer_ptr_[i];
+    }
+    return next_;
+}
+
 int SerializableBuffer::CopyToDest(void *dest, int size) {
     memcpy(dest, GetCurrentPtr(), size);
     next_ += size;
     return 0;
 }
 
-void SerializableBuffer::PrintDetails()
-{
+void SerializableBuffer::PrintDetails() const {
     cout << "size: " << capacity_ << endl;
     cout << "length: " << next_ << endl;
 }

@@ -8,12 +8,15 @@ const int kMaxBufferSize = 1024;
 
 }
 
+/// @brief A buffer represented in a char array to send and retrieve data
 class SerializableBuffer {
 public:
     
     SerializableBuffer();
 
     SerializableBuffer(int buffer_size);
+
+    SerializableBuffer(char* external_buffer, int external_size);
 
     ~SerializableBuffer();
 
@@ -35,6 +38,10 @@ public:
     /// @return Successful: 0. Otherwise status code
     int SkipBackward(int skip_size);
 
+    /// @brief Set next pointer to the starg of buffer
+    /// @return 0: success. -1: error 
+    int Rewind();
+
     /// @brief Truncate extra bytes
     /// @return new size if successfull. Otherwise -1
     int Truncate();
@@ -44,13 +51,15 @@ public:
     int GetCapacity();
     int GetLength();
 
-    char* GetCharArray();
+    /// @brief Copy a new char array to dest
+    /// @return Success: the length copied. Failed: -1
+    int CopyToCharArray(char* dest) const;
     int GetCurrentPtrOffest();
     int CopyToDest(void* dest, int size);    
 
-    void PrintDetails();
+    void PrintDetails() const;
 
-private:
+//private: Keep public during development
 
     char* buffer_ptr_;
 
@@ -65,7 +74,7 @@ private:
 
     /// @brief Change to new size 
     /// @return new size if successfull. Otherwise -1
-    int Resize(int size);
+    //int Resize(int size);
 
     char* GetCurrentPtr();    
 
@@ -75,6 +84,15 @@ private:
 
 /**
  * TODO:
- * Finish add data api(including resize part)
+ * Test buffer(length after adding data, erasing data) with google test
  * 
+ * 
+ * TESTS:
+ *  -Constructer with external buffer
+ *  -AddData
+ *  -SkipForword
+ *  -SkipBackword
+ *  -Rewind
+ *  -Truncate
+ *  -CopyToCharArray
  */

@@ -3,7 +3,7 @@
 
 #include "serializable_buffer.hh"
 
-/// @brief Serializable interface
+/// @brief Serializable interface. Each serializable object can be serialized into a serializable buffer
 class Serializable {
 public:
 
