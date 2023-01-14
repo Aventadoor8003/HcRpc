@@ -17,7 +17,11 @@ public:
 
     /// @brief Serializa an object into a buffer 
     /// @return Success: 0. Otherwis status code
-    virtual int Serizalize(SerializableBuffer& buffer)=0;
+    virtual int Serialize(SerializableBuffer& buffer)=0;
+
+    virtual void PrintContent()=0;
+
+    virtual int GetDataSize()=0;
 
 };
 

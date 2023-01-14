@@ -11,14 +11,9 @@ const int kMaxBufferSize = 1024;
 class SerializableBuffer {
 public:
     
-    SerializableBuffer() {
-        //TODO: Move char buffer to heap
-        //this->buffer_ptr_[serializablebuffer::kDefaultBufferSize];
-        this->capacity_ = 0;
-        this->next_ = 0;
-    }
+    SerializableBuffer();
 
-    //SerializableBuffer(int buffer_size);
+    SerializableBuffer(int buffer_size);
 
     ~SerializableBuffer();
 
@@ -28,7 +23,7 @@ public:
 
     /// @brief Read data into buffer. Attention: data should be a single element: an integer, a char array, likewise
     /// @return Successful: 0. Otherwise status code
-    int AddData(char* data, int data_size);
+    int AddData(void* data, int data_size);
 
     /// @brief Move forward(to the end of buffer)
     /// @param skip_size must be smaller than zero
@@ -51,9 +46,9 @@ public:
 
     char* GetCharArray();
     int GetCurrentPtrOffest();
-    char* GetCurrentPtr();    
+    int CopyToDest(void* dest, int size);    
 
-    
+    void PrintDetails();
 
 private:
 
@@ -72,6 +67,14 @@ private:
     /// @return new size if successfull. Otherwise -1
     int Resize(int size);
 
+    char* GetCurrentPtr();    
+
 };
 
 #endif /*__SERIALIZABLE_BUFFER_HH__*/
+
+/**
+ * TODO:
+ * Finish add data api(including resize part)
+ * 
+ */
