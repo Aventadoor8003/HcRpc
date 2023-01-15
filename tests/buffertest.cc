@@ -1,9 +1,9 @@
-
+#include "catch_amalgamated.hpp"
 #include "serializable_buffer.hh"
 #include "MultiTypeObject.hpp"
 
 using namespace std;
-
+/*
 int main() {
 
     SerializableBuffer buffer;
@@ -28,4 +28,20 @@ int main() {
     //buffer.PrintDetails();
 
     return 0;
+}*/
+
+TEST_CASE() {
+
+    SerializableBuffer buffer;
+
+
+    SECTION("Test new buffer") {
+        REQUIRE(buffer.next_ == 0);
+    }
+
+    SECTION("Add an integer to buffer") {
+        int integer = 5;
+        buffer.AddData(&integer, sizeof(integer));
+        REQUIRE(buffer.next_ == 4);
+    }
 }

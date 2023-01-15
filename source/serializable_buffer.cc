@@ -30,7 +30,7 @@ SerializableBuffer::SerializableBuffer(char *external_buffer, int external_size)
 }
 
 SerializableBuffer::~SerializableBuffer() {
-    cout << "Destructing" << endl;
+    //cout << "Destructing" << endl;
     delete[] this->buffer_ptr_;
 }
 
