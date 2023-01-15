@@ -17,7 +17,7 @@ public:
         memcpy(test_str_, name, len);
     }
 
-    virtual int Deserialize(SerializableBuffer& buffer) override {
+    virtual int Deserialize(SerializedBuffer& buffer) override {
         buffer.CopyToDest(&test_int_, sizeof(int));
         buffer.CopyToDest(&test_str_, sizeof(test_str_));
         return 0;
@@ -25,7 +25,7 @@ public:
 
     /// @brief Serializa an object into a buffer 
     /// @return Success: 0. Otherwis status code
-    virtual int Serialize(SerializableBuffer& buffer) override {
+    virtual int Serialize(SerializedBuffer& buffer) override {
         buffer.AddData(&test_int_, sizeof(test_int_));
         buffer.AddData(test_str_, sizeof(test_str_));
         return 0;
@@ -37,6 +37,7 @@ public:
         cout << "Test str: " << test_str_ << endl;
     }
 
+    /// @brief Get compact data size. Memory padding was ignored
     virtual int GetDataSize() override {
         return sizeof(test_str_) + sizeof(test_int_);
     }

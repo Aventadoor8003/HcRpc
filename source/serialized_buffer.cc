@@ -1,26 +1,26 @@
 #include <iostream>
 #include <string.h>
 
-#include "serializable_buffer.hh"
+#include "serialized_buffer.hh"
 #include "loguru.hpp"
 
 using namespace std;
 
 //SerializableBuffer::SerializableBuffer(){ }
 
-SerializableBuffer::SerializableBuffer() {
-    this->buffer_ptr_ = new char[serializablebuffer::kMaxBufferSize];
-    this->capacity_ = serializablebuffer::kMaxBufferSize;
+SerializedBuffer::SerializedBuffer() {
+    this->buffer_ptr_ = new char[serializedbuffer::kMaxBufferSize];
+    this->capacity_ = serializedbuffer::kMaxBufferSize;
     this->next_ = 0;
 }
 
-SerializableBuffer::SerializableBuffer(int buffer_size) {
+SerializedBuffer::SerializedBuffer(int buffer_size) {
     this->buffer_ptr_ = new char[buffer_size];
     this->capacity_ = buffer_size;
     this->next_ = 0;
 }
 
-SerializableBuffer::SerializableBuffer(char *external_buffer, int external_size) {
+SerializedBuffer::SerializedBuffer(char *external_buffer, int external_size) {
     this->buffer_ptr_ = new char[external_size];
     for(int i = 0; i < external_size; i++) {
         buffer_ptr_[i] = external_buffer[i];
@@ -29,12 +29,12 @@ SerializableBuffer::SerializableBuffer(char *external_buffer, int external_size)
     this->next_ = external_size;
 }
 
-SerializableBuffer::~SerializableBuffer() {
+SerializedBuffer::~SerializedBuffer() {
     //cout << "Destructing" << endl;
     delete[] this->buffer_ptr_;
 }
 
-int SerializableBuffer::AddData(void *data, int data_size) {
+int SerializedBuffer::AddData(void *data, int data_size) {
     if(this->buffer_ptr_ == nullptr) {
         return -1;
     } 
@@ -59,7 +59,7 @@ int SerializableBuffer::AddData(void *data, int data_size) {
     return 0;
 }
 
-int SerializableBuffer::SkipForward(int skip_size) {
+int SerializedBuffer::SkipForward(int skip_size) {
     if(capacity_ - next_ < skip_size) {
         //Print a message
         return -1;
@@ -68,7 +68,7 @@ int SerializableBuffer::SkipForward(int skip_size) {
     return 0;
 }
 
-int SerializableBuffer::SkipBackward(int skip_size) {
+int SerializedBuffer::SkipBackward(int skip_size) {
     if(skip_size > next_) {
         //Print a message
         return -1;
@@ -77,38 +77,39 @@ int SerializableBuffer::SkipBackward(int skip_size) {
     return 0;
 }
 
-int SerializableBuffer::Rewind() {
+int SerializedBuffer::Rewind() {
     next_ = 0;
     return 0;
 }
 
-int SerializableBuffer::Skip(int skip_size) {
+int SerializedBuffer::Skip(int skip_size) {
     next_ += skip_size;
     return 0;
 }
 
-char *SerializableBuffer::GetCurrentPtr() {
+char *SerializedBuffer::GetCurrentPtr() {
     return buffer_ptr_ + next_;
 }
 
-int SerializableBuffer::GetLength() {
+
+int SerializedBuffer::GetLength() {
     return next_;
 }
 
-int SerializableBuffer::CopyToCharArray(char *dest) const {
+int SerializedBuffer::CopyToCharArray(char *dest) const {
     for(int i = 0; i < next_; i++) {
         dest[i] = buffer_ptr_[i];
     }
     return next_;
 }
 
-int SerializableBuffer::CopyToDest(void *dest, int size) {
+int SerializedBuffer::CopyToDest(void *dest, int size) {
     memcpy(dest, GetCurrentPtr(), size);
     next_ += size;
     return 0;
 }
 
-void SerializableBuffer::PrintDetails() const {
+void SerializedBuffer::PrintDetails() const {
     cout << "size: " << capacity_ << endl;
     cout << "length: " << next_ << endl;
 }

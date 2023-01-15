@@ -1,5 +1,5 @@
 INC_DIR = ../include/
-BUF_DEP = ../source/serializable_buffer.cc
+BUF_DEP = ../source/serialized_buffer.cc
 LOG_DEP = ../utils/loguru.cpp
 TEST_DEP = src/catch_amalgamated.cpp
 

@@ -1,8 +1,80 @@
 #include "catch_amalgamated.hpp"
-#include "serializable_buffer.hh"
+#include "serialized_buffer.hh"
 #include "MultiTypeObject.hpp"
 
 using namespace std;
+
+TEST_CASE() {
+
+    SerializedBuffer buffer;
+
+
+    SECTION("Test new buffer") {
+        REQUIRE(buffer.next_ == 0);
+    }
+
+    SECTION("AddData test") {
+        int integer = 5;
+        buffer.AddData(&integer, sizeof(integer));
+        REQUIRE(buffer.next_ == 4);
+        char string_of_30[30];
+        strcpy(string_of_30, "Hello");
+        buffer.AddData(string_of_30, sizeof(string_of_30));
+        //TEST next and content
+        REQUIRE(buffer.next_ == 34);
+        buffer.SkipBackward(30);
+        char newStr[30];
+        strcpy(newStr, buffer.buffer_ptr_ + buffer.next_);
+        REQUIRE(strcmp(newStr, "Hello") == 0);
+
+        integer = -1;
+        REQUIRE(buffer.Rewind() == 0);
+        buffer.CopyToDest(&integer, sizeof(int));
+        REQUIRE(integer == 5);
+        REQUIRE(buffer.next_ == 4);
+
+        strcpy(newStr, "Good");
+        buffer.CopyToDest(newStr, sizeof(string_of_30));
+        REQUIRE(strcmp(newStr, "Hello") == 0);
+    }
+
+    SECTION("Add data for compex objects") {
+        struct s1 {
+            int i1;
+            int i2;
+            int i3;
+        };
+        int size1 = sizeof(s1);
+        REQUIRE(size1 == 12);
+
+        MultiTypeObject test2;
+        int size2 = test2.GetDataSize();
+        REQUIRE(size2 == 34);
+
+        s1 test1 = {1, 2, 3};
+        buffer.AddData(&test1, size1);
+        REQUIRE(buffer.GetLength() == 12);
+        
+        buffer.Rewind();
+        test2.Serialize(buffer);
+        REQUIRE(buffer.GetLength() == size2);
+        
+    }
+
+    
+}
+
+ /** TESTS:
+ *  -Constructer with external buffer
+ *  -AddData
+ *  -CopyToDest
+ *  -SkipForword
+ *  -SkipBackword
+ *  -Rewind
+ *  -Truncate
+ *  -CopyToCharArray
+ */
+
 /*
 int main() {
 
@@ -29,19 +101,3 @@ int main() {
 
     return 0;
 }*/
-
-TEST_CASE() {
-
-    SerializableBuffer buffer;
-
-
-    SECTION("Test new buffer") {
-        REQUIRE(buffer.next_ == 0);
-    }
-
-    SECTION("Add an integer to buffer") {
-        int integer = 5;
-        buffer.AddData(&integer, sizeof(integer));
-        REQUIRE(buffer.next_ == 4);
-    }
-}
