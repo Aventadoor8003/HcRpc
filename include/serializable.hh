@@ -18,7 +18,8 @@ public:
     /// @return Success: 0. Otherwis status code
     virtual int Serialize(SerializedBuffer& buffer)=0;
 
-    virtual void PrintContent()=0;
+    //DEBUG USAGE
+    virtual void PrintContent() {};
 
     virtual int GetDataSize()=0;
 

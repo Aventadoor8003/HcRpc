@@ -9,19 +9,19 @@ using namespace std;
 //SerializableBuffer::SerializableBuffer(){ }
 
 SerializedBuffer::SerializedBuffer() {
-    this->buffer_ptr_ = new char[serializedbuffer::kMaxBufferSize];
+    this->buffer_ptr_ = new char[serializedbuffer::kMaxBufferSize]();
     this->capacity_ = serializedbuffer::kMaxBufferSize;
     this->next_ = 0;
 }
 
 SerializedBuffer::SerializedBuffer(int buffer_size) {
-    this->buffer_ptr_ = new char[buffer_size];
+    this->buffer_ptr_ = new char[buffer_size]();
     this->capacity_ = buffer_size;
     this->next_ = 0;
 }
 
 SerializedBuffer::SerializedBuffer(char *external_buffer, int external_size) {
-    this->buffer_ptr_ = new char[external_size];
+    this->buffer_ptr_ = new char[external_size]();
     for(int i = 0; i < external_size; i++) {
         buffer_ptr_[i] = external_buffer[i];
     }
@@ -96,10 +96,12 @@ int SerializedBuffer::GetLength() {
     return next_;
 }
 
-int SerializedBuffer::CopyToCharArray(char *dest) const {
-    for(int i = 0; i < next_; i++) {
+int SerializedBuffer::CopyAllData(char *dest) const {
+    
+    /*for(int i = 0; i < next_; i++) {
         dest[i] = buffer_ptr_[i];
-    }
+    }*/
+    memcpy(buffer_ptr_, dest, next_);
     return next_;
 }
 

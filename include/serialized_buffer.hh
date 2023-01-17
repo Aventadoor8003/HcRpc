@@ -52,13 +52,14 @@ public:
 
     /// @brief Copy a new char array to dest
     /// @return Success: the length copied. Failed: -1
-    int CopyToCharArray(char* dest) const;
+    int CopyAllData(char* dest) const;
     int GetCurrentPtrOffest();
     int CopyToDest(void* dest, int size);    
 
     void PrintDetails() const;
 
-//private: Keep public during development
+private: 
+//Keep public during development
 
     char* buffer_ptr_;
     int capacity_;
