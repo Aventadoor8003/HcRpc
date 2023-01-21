@@ -4,6 +4,10 @@
 #include "common.hh"
 #include "serialized_buffer.hh"
 
+/// TODO: Rewrite this part. size field should be at first for performance reasons
+/// Message:
+/// | content | request id | data len |  data 
+/// |  bytes  |      4     |     4    |   all rest
 class SerializedMessage {
 
 public:
@@ -18,7 +22,7 @@ public:
     /// TODO: Thinking about make this method private and realize the same functinoality in constructor
     int GenerateSerializedMessage(int request_id, SerializedBuffer& buffer);
 
-    /// @return 
+    /// @return success: bytes copied to message buffer. failed: -1
     int CopyMessageToStream(ByteStream message_buffer);
 
     int GetRequestId();
@@ -31,6 +35,7 @@ public:
 //private:
     int request_id_;
     char* data_buffer_;
+    int data_len_;
 
 };
 
