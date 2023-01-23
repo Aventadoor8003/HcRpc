@@ -58,7 +58,7 @@ public:
 
     void PrintDetails() const;
 
-private: 
+//private: 
 //Keep public during development
 
     char* buffer_ptr_;

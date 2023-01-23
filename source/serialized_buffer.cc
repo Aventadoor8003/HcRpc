@@ -22,11 +22,9 @@ SerializedBuffer::SerializedBuffer(int buffer_size) {
 
 SerializedBuffer::SerializedBuffer(char *external_buffer, int external_size) {
     this->buffer_ptr_ = new char[external_size]();
-    for(int i = 0; i < external_size; i++) {
-        buffer_ptr_[i] = external_buffer[i];
-    }
+    memcpy(buffer_ptr_, external_buffer, external_size);
     this->capacity_ = external_size;
-    this->next_ = external_size;
+    this->next_ = 0;
 }
 
 SerializedBuffer::~SerializedBuffer() {
@@ -91,6 +89,9 @@ char *SerializedBuffer::GetCurrentPtr() {
     return buffer_ptr_ + next_;
 }
 
+int SerializedBuffer::GetCapacity() {
+    return capacity_;
+}
 
 int SerializedBuffer::GetLength() {
     return next_;
