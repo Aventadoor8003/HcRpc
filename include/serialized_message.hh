@@ -6,7 +6,6 @@
 #include "common.hh"
 #include "serialized_buffer.hh"
 
-/// TODO: Rewrite this part. size field should be at first for performance reasons
 /// Message:
 /// | content | request id | data len |  data 
 /// |  bytes  |      4     |     4    |   all rest
@@ -27,14 +26,21 @@ class SerializedMessage {
 public:
 
     SerializedMessage();
-    /// @brief Unmarshal 
+    /// @brief Unmarshal: stream -> messageObject
+    /// MIGHT BE DEPRICATED
     SerializedMessage(ByteStream srouce);
+    /// @brief Marshal: object -> messageObject
     SerializedMessage(int request_id, SerializedBuffer& buffer);
+
+    //SerializedMessage(int socket);
     ~SerializedMessage();
 
     /// @brief marshal
     /// @return success: bytes copied to message buffer. failed: -1
     int CopyMessageToStream(ByteStream message_buffer);
+    //int SendToSocket(int socket);
+
+    int CopyDataToStream(ByteStream stream);
 
     int GetRequestId();
 

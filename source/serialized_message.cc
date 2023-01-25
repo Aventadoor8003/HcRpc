@@ -35,7 +35,13 @@ SerializedMessage::SerializedMessage(int request_id, SerializedBuffer &buffer) {
     buffer.CopyAllData(data_buffer_);
 }
 
-SerializedMessage::~SerializedMessage() {
+/*
+SerializedMessage::SerializedMessage(int socket) {
+    //TODO: Finish this
+}*/
+
+SerializedMessage::~SerializedMessage()
+{
     delete[] data_buffer_;
 }
 
@@ -46,6 +52,19 @@ int SerializedMessage::CopyMessageToStream(ByteStream message_buffer) {
     memcpy(start, &data_len_, sizeof(int));
     start += sizeof(int);
     memcpy(start, data_buffer_, data_len_);
+    return 0;
+}
+
+/*
+int SerializedMessage::SendToSocket(int socket) {
+    //TODO:
+    //1. Copy to a stream
+    //2. Send stream to a socket
+    return 0;
+}*/
+
+int SerializedMessage::CopyDataToStream(ByteStream stream) {
+    memcpy(stream, data_buffer_, data_len_);
     return 0;
 }
 
