@@ -12,6 +12,7 @@
 using namespace std;
 
 int SerializationClient::Run() {
+    //-TODO: Refactor using the new ConnectToServer in sock utils
     if(ConnectToServer() == -1) {
         LOG_F(ERROR, "Client stop (Failed to connect to server)");
         return -1;
@@ -72,7 +73,6 @@ int SerializationClient::ConnectToServer() {
 }
 
 int SerializationClient::DoRead(ByteStream buffer) {
-    //TODO:
     // 1. Read first 8 bytes to get size
     int request_id, data_len;
     Read(&request_id, sizeof(int));
@@ -103,7 +103,7 @@ int SerializationClient::Read(void *data_ptr, int size) {
 }
 
 int SerializationClient::DoWrite(SerializedMessage &message) {
-    //TODO:
+    //TODO: USE SOCKET UTILS
     //Directly send message to socket
     return 0;
 }

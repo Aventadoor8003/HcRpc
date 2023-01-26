@@ -35,6 +35,7 @@ public:
     /// @return successful: bytes of data read. fail: -1 
     int DoRead(ByteStream buffer);
 
+    //TODO: Depricate this method
     /// @brief Read in assigned size
     /// @return Suc: actual bytes. Fail: -1
     int Read(void* data_ptr, int size);
@@ -48,8 +49,7 @@ public:
 /**
  * WARNING: Inheritence is not recommonded here. Use a request handler to handle different requests 
  * TODO:
- * -Write a method to receive serialized message
- * -Write a method to send serialized message
+ * -Move read write and connect function to a seperate file
  * 
  * Message transportation:
  * 1. read in a ByteStream buffer
