@@ -44,7 +44,10 @@ public:
 
     int GetRequestId();
 
-    int GetLength();
+    /// @brief Get length of data
+    int GetDataLength();
+
+    int GetMessageLength();
 
     /// @brief Unmarshal: Copy data to dest 
     /// @return success: 0. fail: -1

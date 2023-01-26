@@ -38,6 +38,17 @@ TEST_CASE() {
         REQUIRE(strcmp(newStr, "Hello") == 0);
     }
 
+    SECTION("Add string test") {
+        const char* test = "Test";
+        buffer.AddData((void*)test, sizeof(test));
+        REQUIRE(buffer.GetLength() == 8);
+        buffer.Rewind();
+
+        char str_bff[30];
+        buffer.CopyToDest(str_bff, sizeof(test));
+        REQUIRE(strcmp(str_bff, test) == 0);
+    }
+
     SECTION("Add data for compex objects") {
         struct s1 {
             int i1;

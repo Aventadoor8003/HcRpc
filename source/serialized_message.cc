@@ -72,8 +72,12 @@ int SerializedMessage::GetRequestId() {
     return request_id_;
 }
 
-int SerializedMessage::GetLength() {
+int SerializedMessage::GetDataLength() {
     return data_len_;
+}
+
+int SerializedMessage::GetMessageLength() {
+    return data_len_ + sizeof(request_id_) + sizeof(data_len_);
 }
 
 SerializedBuffer SerializedMessage::ConstructBuffer() {

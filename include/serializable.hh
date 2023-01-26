@@ -2,6 +2,16 @@
 #define __SERIALIZABLE_HH__
 
 #include "serialized_buffer.hh"
+
+
+/**
+ * ------------------------------
+ *         EXTRA ATTENTION
+ * ------------------------------
+ * If there is a string in a serializable object, pay extra attention to the '\0' at the end
+ * The '\0' won't be contained in a serialized message
+ * but when unmarshaling a serialized message, we need to append this byte
+ */
 /// @brief Serializable interface. Each serializable object can be serialized into a serializable buffer
 class Serializable {
 public:

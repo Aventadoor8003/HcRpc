@@ -44,6 +44,7 @@ int SerializationClient::Run() {
     //5. Print string
     cout << "Received [" << tmp_str << "]" << endl;
     
+    close(server_socket_);
     return 0;
 }
 
@@ -102,8 +103,8 @@ int SerializationClient::Read(void *data_ptr, int size) {
     return received_len;
 }
 
-int SerializationClient::DoWrite(SerializedMessage &message) {
+/*int SerializationClient::DoWrite(SerializedMessage &message) {
     //TODO: USE SOCKET UTILS
     //Directly send message to socket
     return 0;
-}
+}*/
