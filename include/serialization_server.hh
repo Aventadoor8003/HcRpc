@@ -44,3 +44,5 @@ public:
 };
 
 #endif /*__SERIALIZATION_SERVER_HH__*/
+
+//TODO: Write workers
