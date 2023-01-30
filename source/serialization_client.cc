@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "serialization_client.hh"
+#include "socket_utils.hh"
 #include "loguru.hpp"
 
 using namespace std;
@@ -103,8 +104,8 @@ int SerializationClient::Read(void *data_ptr, int size) {
     return received_len;
 }
 
-/*int SerializationClient::DoWrite(SerializedMessage &message) {
+int SerializationClient::DoWrite(SerializedMessage &message) {
     //TODO: USE SOCKET UTILS
     //Directly send message to socket
     return 0;
-}*/
+}

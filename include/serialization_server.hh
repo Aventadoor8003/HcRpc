@@ -25,7 +25,7 @@ public:
 //Keep public during development
 
 
-    std::string listen_addr_;
+    std::string listen_addr_ = "127.0.0.1:2333";
     int vflag_;
     int listen_socket_;
     
